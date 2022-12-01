@@ -1,0 +1,149 @@
+.chart {
+    border:solid;
+    border-radius: 5px;
+    border-color: black;
+}
+
+.infoArea {
+    display: flex;
+    position: relative;
+    margin: 100px 0px 5px 80px;
+}
+
+.header {
+    margin-right: 5px;
+}
+
+.symbolForm {
+    width: 138px;
+    margin-right: 4px;
+}
+
+.cell {
+    width: 19px;
+    background-color: rgb(255, 255, 255);
+    writing-mode: vertical-lr;
+    font-size: 5px;
+}
+
+.activeCell {
+    background-color: green;
+}
+
+.intervalBtn {
+    margin-left: 5px;
+    box-shadow: 2px 2px;
+}
+
+.intervalBtnActive {
+    margin-left: 5px;
+    background-color: rgb(106, 203, 106);
+}
+
+.chartAreaWrap {
+    display: grid;
+    grid-template-columns: 80px 550px;
+    grid-template-rows: 335px 30px
+    
+}
+
+.priceInfo {
+    margin-left: 34px;
+}
+
+.price5 {
+    padding-top: 8px;
+}
+
+.price4, .price3, .price2, .price1{
+    padding-top: 56px;
+}
+
+.timestampBar {
+    display: flex;
+    margin-left: 60px;
+    grid-row: 2 / 3;
+    grid-column: 1 / -1;
+}
+
+.timeStamp {
+    margin-left: 47px;
+}
+
+.timeStampFirst {
+    margin-left: 27px;
+}
+
+.timeStampLast {
+    margin-left: 30px;
+}
+
+.dropdownMenu {
+    display: none;
+}
+
+.dropdownMenuActive {
+    margin-top: 5px;
+    display: block;
+    position: absolute;
+    width: 281px;
+    background-color: white;
+    border-style: solid;
+    border-radius: 5px;
+    border-width: 1px;
+}
+
+li {
+    margin: 5px;
+    list-style :none;
+    font-size: 14px;
+}
+
+li:hover {
+    background-color: #9e9e9e4a;
+    cursor: pointer;
+}
+
+.disclaimer {
+    margin-top: 25px;
+    margin-left: 80px;
+}
+
+.checkbox {
+    cursor: pointer;
+}
+
+.rightSidebar {
+    visibility: hidden;
+    margin-top: 3px;
+    margin-left: 20px;
+    width: 162px;
+}
+
+.mouseInfo {
+    position: absolute;
+    margin-top: 25px;
+}
+
+p {
+    margin-left: 3px;
+    margin-right: 3px;
+    margin-top: 3px;
+    margin-bottom: 1px;
+}
+
+.sidebarPrice, .sidebarTime{
+    width: 162px;
+    margin-bottom: 2px;
+    border-radius: 5px;
+    background-color: #9e9e9e1f;
+}
+
+.titlePrice , .titleTime{
+    border-style: solid;
+    border-radius: 5px;
+}
+
+.price {
+    text-align: center;
+}

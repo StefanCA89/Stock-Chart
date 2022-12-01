@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <style> body {background-color: white;}</style>
+    <link rel="stylesheet" href="stockchart.css">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StockChart</title>
+</head>
+<body>
+    <div class="infoArea">
+        <div class="header">Symbol</div>
+        <div class="dropDown">
+        <input type="text" class="symbolForm" workingSymbol = "" id="symbolInput">
+        <div class="dropdownMenu" id="dropdownMenuList">
+        </div>
+        </div>
+        <input type="checkbox" class="checkbox" id="apisearchToggle" checked>
+        <button id="submit" onclick="setSymbol()">Submit</button>
+        <button class="intervalBtnActive" id="60" onclick="toggleBtns(id)">60min</button>
+        <button class="intervalBtn" id="30" onclick="toggleBtns(id)">30min</button>
+        <button class="intervalBtn" id="15" onclick="toggleBtns(id)">15min</button>
+        <button class="intervalBtn" id="5" onclick="toggleBtns(id)">5min</button>
+        <button class="intervalBtn" id="1" onclick="toggleBtns(id)">1min</button>
+        <div class="rightSidebar">
+            <div class="mouseInfo" id="mouseInfo">
+                <div class="sidebarPrice">
+                    <div class="titlePrice">Price</div>
+                    <div class="price" id="priceSidebar">10</div>
+                </div>
+                <div class="sidebarTime">
+                    <div class="titleTime">Timestamp</div>
+                    <div class="timeStamp" id="timeSidebar"></div>
+                </div>
+            </div>    
+        </div>
+    </div>
+    <div class="chartAreaWrap">
+    <div class="priceInfo">
+        <div class="price5"></div>
+        <div class="price4"></div>
+        <div class="price3"></div>
+        <div class="price2"></div>
+        <div class="price1"></div>
+    </div>
+    <canvas class="chart" width ="550px" height="330px" id="chartArea"></canvas>
+    <div class="timestampBar">
+        <div class="timeStampFirst"id="4t"></div>
+        <div class="timeStamp"id="3t"></div>
+        <div class="timeStamp"id="2t"></div>
+        <div class="timeStamp"id="1t"></div>
+        <div class="timeStampLast"id="0t"></div>
+    </div>
+    </div>
+    <div class="disclaimer">
+        <p>Hello! Due to the limitations of the API,
+        a Symbol quicksearch toggle is in place.</p>
+        <p>It is found next to the input box and is set to active
+        by default.</p>
+    </div>
+    <script src="stockscript.js"></script>
+</body>
+</html>
