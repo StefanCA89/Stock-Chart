@@ -40,7 +40,7 @@ document.getElementById("chartArea").addEventListener("mouseleave", (event) => {
 
 window.addEventListener("click", (event) => {
     const parentId = event.target.parentNode.id
-    if (parentId != "infoAr" && parentId != "dropdownMenuList" && event.target.id != "symbolInput") {
+    if (parentId != "infoAr" && parentId != "dropdownMenuList" && parentId != "li" && event.target.id != "symbolInput") { 
         document.getElementById("dropdownMenuList").innerHTML = ""
         if (document.getElementById("symbolInput").getAttribute("workingSymbol") != "") {
             safeSymbol("get")
