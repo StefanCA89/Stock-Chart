@@ -181,7 +181,7 @@ async function symbolSearch(chars) {
     try {
         for (let i = 0; i < data.bestMatches.length; ++i) {
             listElements += '\
-            <li onclick= copySymbol("'+ data.bestMatches[i]["1. symbol"] +'")>\
+            <li id="li" onclick= copySymbol("'+ data.bestMatches[i]["1. symbol"] +'")>\
                 Symbol: <strong>' + data.bestMatches[i]["1. symbol"] + '</strong><br>\
                 Name: ' + data.bestMatches[i]["2. name"] + '<br>\
                 Region: ' + data.bestMatches[i]["4. region"] +'\
