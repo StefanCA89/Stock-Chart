@@ -9,12 +9,11 @@
     <title>StockChart</title>
 </head>
 <body>
-    <div class="infoArea">
-        <div class="header">Symbol</div>
+    <div class="infoArea" id="infoAr">
+        <div class="headerInput">Symbol</div>
         <div class="dropDown">
-        <input type="text" class="symbolForm" workingSymbol = "" id="symbolInput">
-        <div class="dropdownMenu" id="dropdownMenuList">
-        </div>
+            <input type="text" class="symbolForm" workingSymbol = "" id="symbolInput">
+            <div class="dropdownMenu" id="dropdownMenuList"></div>
         </div>
         <input type="checkbox" class="checkbox" id="apisearchToggle" checked>
         <button id="submit" onclick="setSymbol()">Submit</button>
@@ -31,27 +30,30 @@
                 </div>
                 <div class="sidebarTime">
                     <div class="titleTime">Timestamp</div>
-                    <div class="timeStamp" id="timeSidebar"></div>
+                    <div class="sideTimeStamp" id="timeSidebar"></div>
                 </div>
             </div>    
         </div>
     </div>
     <div class="chartAreaWrap">
-    <div class="priceInfo">
-        <div class="price5"></div>
-        <div class="price4"></div>
-        <div class="price3"></div>
-        <div class="price2"></div>
-        <div class="price1"></div>
-    </div>
-    <canvas class="chart" width ="550px" height="330px" id="chartArea"></canvas>
-    <div class="timestampBar">
-        <div class="timeStampFirst"id="4t"></div>
-        <div class="timeStamp"id="3t"></div>
-        <div class="timeStamp"id="2t"></div>
-        <div class="timeStamp"id="1t"></div>
-        <div class="timeStampLast"id="0t"></div>
-    </div>
+        <div class="priceInfo">
+            <div class="price5"></div>
+            <div class="price4"></div>
+            <div class="price3"></div>
+            <div class="price2"></div>
+            <div class="price1"></div>
+        </div>
+        <canvas class="chart" width ="550px" height="330px" id="chartArea"></canvas>
+        <div style="display:none;">
+            <img id="source" src="alphavantage.png"/>
+        </div>
+        <div class="timestampBar">
+            <div class="timeStampFirst"id="4t"></div>
+            <div class="timeStampMid"id="3t"></div>
+            <div class="timeStampMid"id="2t"></div>
+            <div class="timeStampMid"id="1t"></div>
+            <div class="timeStampLast"id="0t"></div>
+        </div>
     </div>
     <div class="disclaimer">
         <p>Hello! Due to the limitations of the API,

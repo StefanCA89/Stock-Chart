@@ -2,6 +2,8 @@ const canvas = document.querySelector(".chart")
 const width = canvas.width
 const height = canvas.height
 const ctx = canvas.getContext("2d")
+const image = document.getElementById("source")
+ctx.drawImage(image, 0, 30)
 ctx.fillStyle = "black"
 document.getElementById("symbolInput").focus()
 let graphInfo = {
@@ -13,7 +15,7 @@ let graphInfo = {
     }
 }
 
-async function drawGraph(symbol, interval) {
+async function createGraph(symbol, interval) {
     let timeStamp = []
     const priceOpen = []
     const priceClose = []
@@ -26,12 +28,12 @@ async function drawGraph(symbol, interval) {
     const data = await response.json()
     try {
         timeStamp = Object.keys(data[`Time Series (${interval})`])
-        safeSymbol("set", symbol)
     } catch (error) {
         alert("5 API calls per minute Exceeded\nor Symbol not avalaible")
         safeSymbol("get")
-        return 0
+        return
     }
+    safeSymbol("set", symbol)
     ctx.clearRect(0, 0, width, height)
     graphInfo.timeArray = timeStamp
     setTimeInfo(timeStamp)
@@ -75,7 +77,6 @@ async function drawGraph(symbol, interval) {
         ctx.fillRect(posXline, posYline, 10, heightLine)
         posXline += 12
     }
-    console.log(graphInfo);
 }
 
 function getMax(array) {
@@ -91,8 +92,9 @@ function drawX(posX, posY) {
     ctx.fillRect(posX - 2.5, posY, 5, 1)
 }
 
-window.addEventListener("click", (event) => {
-    if (event.target.id != "symbolInput") {
+ window.addEventListener("click", (event) => {
+    const parentId = event.target.parentNode.id
+    if (parentId != "infoAr" && parentId != "dropdownMenuList" && event.target.id != "symbolInput") {
         document.getElementById("dropdownMenuList").innerHTML = ""
         if (document.getElementById("symbolInput").getAttribute("workingSymbol") != "") {
             safeSymbol("get")
@@ -116,15 +118,18 @@ document.getElementById("chartArea").addEventListener("mouseleave", (event) => {
     document.querySelector(".rightSidebar").style.visibility = "hidden"
 })
 
-document.getElementById("symbolInput").addEventListener("keyup", function () {
-    if (document.getElementById("apisearchToggle").checked == true)
-    symbolSearch(document.getElementById("symbolInput").value)
+document.getElementById("symbolInput").addEventListener("keyup", (event) => {
+    if (event.code == "Enter") setSymbol()
+    if (document.getElementById("apisearchToggle").checked == true) {
+        symbolSearch(document.getElementById("symbolInput").value)
+    }
 })
 
 function setSymbol() {
     let symbol = document.getElementById("symbolInput").value
+    if (symbol == "") return
     let interval = getInterval()
-    drawGraph(symbol, interval)
+    createGraph(symbol, interval)
 }
 
 function toggleBtns(id) {
@@ -176,11 +181,14 @@ async function symbolSearch(chars) {
     }
     const response = await fetch(`https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords=${chars}&apikey=PKS369HG6LAKHCVO`)
     const data = await response.json()
+
+    console.log(data);
+
     let listElements = ""
     try {
         for (let i = 0; i < data.bestMatches.length; ++i) {
             listElements += '\
-            <li onclick= copySymbol("'+ data.bestMatches[i]["1. symbol"] +'")>\
+            <li id="listItem" onclick= copySymbol("'+ data.bestMatches[i]["1. symbol"] +'")>\
                 Symbol: <strong>' + data.bestMatches[i]["1. symbol"] + '</strong><br>\
                 Name: ' + data.bestMatches[i]["2. name"] + '<br>\
                 Region: ' + data.bestMatches[i]["4. region"] +'\

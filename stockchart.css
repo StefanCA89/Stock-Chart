@@ -1,81 +1,16 @@
-.chart {
-    border:solid;
-    border-radius: 5px;
-    border-color: black;
-}
-
 .infoArea {
     display: flex;
     position: relative;
     margin: 100px 0px 5px 80px;
 }
 
-.header {
+.headerInput {
     margin-right: 5px;
 }
 
 .symbolForm {
-    width: 138px;
+    width: 130px;
     margin-right: 4px;
-}
-
-.cell {
-    width: 19px;
-    background-color: rgb(255, 255, 255);
-    writing-mode: vertical-lr;
-    font-size: 5px;
-}
-
-.activeCell {
-    background-color: green;
-}
-
-.intervalBtn {
-    margin-left: 5px;
-    box-shadow: 2px 2px;
-}
-
-.intervalBtnActive {
-    margin-left: 5px;
-    background-color: rgb(106, 203, 106);
-}
-
-.chartAreaWrap {
-    display: grid;
-    grid-template-columns: 80px 550px;
-    grid-template-rows: 335px 30px
-    
-}
-
-.priceInfo {
-    margin-left: 34px;
-}
-
-.price5 {
-    padding-top: 8px;
-}
-
-.price4, .price3, .price2, .price1{
-    padding-top: 56px;
-}
-
-.timestampBar {
-    display: flex;
-    margin-left: 60px;
-    grid-row: 2 / 3;
-    grid-column: 1 / -1;
-}
-
-.timeStamp {
-    margin-left: 47px;
-}
-
-.timeStampFirst {
-    margin-left: 27px;
-}
-
-.timeStampLast {
-    margin-left: 30px;
 }
 
 .dropdownMenu {
@@ -104,14 +39,21 @@ li:hover {
     cursor: pointer;
 }
 
-.disclaimer {
-    margin-top: 25px;
-    margin-left: 80px;
-}
 
 .checkbox {
     cursor: pointer;
 }
+
+.intervalBtn, #submit {
+    margin-left: 5px;
+    box-shadow: 2px 2px;
+}
+
+.intervalBtnActive {
+    margin-left: 5px;
+    background-color: rgb(106, 203, 106);
+}
+
 
 .rightSidebar {
     visibility: hidden;
@@ -125,25 +67,79 @@ li:hover {
     margin-top: 25px;
 }
 
+.sidebarPrice, .sidebarTime {
+    width: 90px;
+    margin-bottom: 7px;
+    border-radius: 5px;
+    background-color: #9e9e9e1f;
+}
+
+.titlePrice , .titleTime {
+    border-style: solid;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.price {
+    text-align: center;
+}
+
+.sideTimeStamp {
+    margin-left: 9px;
+}
+
+.chartAreaWrap {
+    display: grid;
+    grid-template-columns: 80px 550px;
+    grid-template-rows: 335px 30px
+    
+}
+
+.priceInfo {
+    margin-left: 34px;
+}
+
+.price5 {
+    padding-top: 8px;
+}
+
+.price4, .price3, .price2, .price1{
+    padding-top: 56px;
+}
+
+.chart {
+    border:solid;
+    border-radius: 5px;
+    border-color: black;
+}
+
+.timestampBar {
+    display: flex;
+    margin-left: 60px;
+    grid-row: 2 / 3;
+    grid-column: 1 / -1;
+}
+
+.timeStampMid {
+    margin-left: 46px;
+}
+
+.timeStampFirst {
+    margin-left: 27px;
+}
+
+.timeStampLast {
+    margin-left: 30px;
+}
+
+.disclaimer {
+    margin-top: 25px;
+    margin-left: 80px;
+}
+
 p {
     margin-left: 3px;
     margin-right: 3px;
     margin-top: 3px;
     margin-bottom: 1px;
-}
-
-.sidebarPrice, .sidebarTime{
-    width: 162px;
-    margin-bottom: 2px;
-    border-radius: 5px;
-    background-color: #9e9e9e1f;
-}
-
-.titlePrice , .titleTime{
-    border-style: solid;
-    border-radius: 5px;
-}
-
-.price {
-    text-align: center;
 }
