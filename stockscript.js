@@ -40,8 +40,8 @@ document.getElementById("chartArea").addEventListener("mouseleave", (event) => {
 
 window.addEventListener("click", (event) => {
     const parentId = event.target.parentNode.id
-    if (parentId != "infoAr" && parentId != "dropdownMenuList" && parentId != "li" && event.target.id != "symbolInput") { 
-        document.getElementById("dropdownMenuList").innerHTML = ""
+    if (parentId != "infoAr" && parentId != "dropdownMenuList" && parentId != "li" && event.target.id != "symbolInput") { //Need parentId"li" because of <Strong> style 
+        document.getElementById("dropdownMenuList").innerHTML = ""                                                        //returning "" when clicked 
         if (document.getElementById("symbolInput").getAttribute("workingSymbol") != "") {
             safeSymbol("get")
         }
