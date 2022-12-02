@@ -15,90 +15,10 @@ let graphInfo = {
     }
 }
 
-async function createGraph(symbol, interval) {
-    let timeStamp = []
-    const priceOpen = []
-    const priceClose = []
-    const priceHigh = []
-    const priceLow = []
-    let posXline = 12
-    let posYline
-    let heightLine
-    const response =  await fetch(`https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=${symbol}&interval=${interval}&apikey=PKS369HG6LAKHCVO`)
-    const data = await response.json()
-    try {
-        timeStamp = Object.keys(data[`Time Series (${interval})`])
-    } catch (error) {
-        alert("5 API calls per minute Exceeded\nor Symbol not avalaible")
-        safeSymbol("get")
-        return
-    }
-    safeSymbol("set", symbol)
-    ctx.clearRect(0, 0, width, height)
-    graphInfo.timeArray = timeStamp
-    setTimeInfo(timeStamp)
-    for (let index = 0; index < 45; ++index) {
-    priceOpen.unshift(data[`Time Series (${interval})`][`${timeStamp[index]}`]["1. open"])
-    priceHigh.unshift(data[`Time Series (${interval})`][`${timeStamp[index]}`]["2. high"])
-    priceLow.unshift(data[`Time Series (${interval})`][`${timeStamp[index]}`]["3. low"])
-    priceClose.unshift(data[`Time Series (${interval})`][`${timeStamp[index]}`]["4. close"])
-    }
-    let high = graphInfo.highest = getMax(priceHigh)
-    let low = graphInfo.lowest = getMin(priceLow)
-    let maxDiff = high - low
-    drawLines()
-    setPriceInfo(high, low)
-    for (let i = 0; i < 45; ++i) {
-        posYline = 3 * ((high - priceHigh[i]) * 100 / maxDiff) + 15
-        heightLine = 3 * ((high - priceLow[i]) * 100 / maxDiff) + 15 - posYline
-        if (priceHigh[i] == priceLow[i]) {
-            drawX(posXline, posYline)
-        } else {
-            ctx.fillRect(posXline, posYline, 1, heightLine)
-        }
-        posXline += 12
-    }
-    posXline = 8
-    for (let i = 0; i < 45; ++i) {
-        highValue = priceOpen[i]
-        lowValue = priceClose[i]
-        ctx.fillStyle = "#dc3232"
-        if (priceOpen[i] < priceClose[i]) {
-            lowValue = priceOpen[i]
-            highValue = priceClose[i]
-            ctx.fillStyle = "#4CAF50"
-        }
-        posYline = 3 * ((high - highValue) * 100 / maxDiff) + 15
-        heightLine = 3 * ((high - lowValue) * 100 / maxDiff) + 15 - posYline
-        if (heightLine == 0) {
-            ctx.fillStyle = "black"
-            ++heightLine
-        }
-        ctx.fillRect(posXline, posYline, 10, heightLine)
-        posXline += 12
-    }
-}
-
-function getMax(array) {
-    return Math.max(...array)
-}
-
-function getMin(array) {
-    return Math.min(...array)
-}
-
-function drawX(posX, posY) {
-    ctx.fillRect(posX, posY - 2.5, 1, 5)
-    ctx.fillRect(posX - 2.5, posY, 5, 1)
-}
-
- window.addEventListener("click", (event) => {
-    const parentId = event.target.parentNode.id
-    if (parentId != "infoAr" && parentId != "dropdownMenuList" && event.target.id != "symbolInput") {
-        document.getElementById("dropdownMenuList").innerHTML = ""
-        if (document.getElementById("symbolInput").getAttribute("workingSymbol") != "") {
-            safeSymbol("get")
-        }
+document.getElementById("symbolInput").addEventListener("keyup", (event) => {
+    if (event.code == "Enter") setSymbol()
+    if (document.getElementById("apisearchToggle").checked == true) {
+        symbolSearch(document.getElementById("symbolInput").value)
     }
 })
 
@@ -118,10 +38,13 @@ document.getElementById("chartArea").addEventListener("mouseleave", (event) => {
     document.querySelector(".rightSidebar").style.visibility = "hidden"
 })
 
-document.getElementById("symbolInput").addEventListener("keyup", (event) => {
-    if (event.code == "Enter") setSymbol()
-    if (document.getElementById("apisearchToggle").checked == true) {
-        symbolSearch(document.getElementById("symbolInput").value)
+window.addEventListener("click", (event) => {
+    const parentId = event.target.parentNode.id
+    if (parentId != "infoAr" && parentId != "dropdownMenuList" && event.target.id != "symbolInput") {
+        document.getElementById("dropdownMenuList").innerHTML = ""
+        if (document.getElementById("symbolInput").getAttribute("workingSymbol") != "") {
+            safeSymbol("get")
+        }
     }
 })
 
@@ -129,21 +52,80 @@ function setSymbol() {
     let symbol = document.getElementById("symbolInput").value
     if (symbol == "") return
     let interval = getInterval()
-    createGraph(symbol, interval)
-}
-
-function toggleBtns(id) {
-    if (document.getElementById(id).className == "intervalBtnActive") {
-    return
-    }
-    let activeBtn = document.querySelector(".intervalBtnActive")
-    activeBtn.className = "intervalBtn"
-    document.getElementById(id).className = "intervalBtnActive"
+    prepareGraph(symbol, interval)
 }
 
 function getInterval() {
     let activeBtn = document.querySelector(".intervalBtnActive")
     return activeBtn.innerText
+}
+
+async function prepareGraph(symbol, interval) {
+    let timeStamp = []
+    const priceOpen = []
+    const priceClose = []
+    const priceHigh = []
+    const priceLow = []
+    const response =  await fetch(`https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=${symbol}&interval=${interval}&apikey=PKS369HG6LAKHCVO`)
+    const data = await response.json()
+    try {
+        timeStamp = Object.keys(data[`Time Series (${interval})`])
+    } catch (error) {
+        alert("5 API calls per minute Exceeded\nor Symbol not avalaible")
+        safeSymbol("get")
+        return
+    }
+    for (let index = 0; index < 45; ++index) {
+        priceOpen.unshift(data[`Time Series (${interval})`][`${timeStamp[index]}`]["1. open"])
+        priceHigh.unshift(data[`Time Series (${interval})`][`${timeStamp[index]}`]["2. high"])
+        priceLow.unshift(data[`Time Series (${interval})`][`${timeStamp[index]}`]["3. low"])
+        priceClose.unshift(data[`Time Series (${interval})`][`${timeStamp[index]}`]["4. close"])
+    }
+    safeSymbol("set", symbol)
+    graphInfo.timeArray = timeStamp
+    setTimeInfo(timeStamp)
+    let high = graphInfo.highest = Math.max(...priceHigh)
+    let low = graphInfo.lowest = Math.min(...priceLow)
+    setPriceInfo(high, low)
+    drawGraph(priceHigh, priceLow, high, low, priceOpen, priceClose)
+}
+
+function drawGraph (priceHigh, priceLow, high, low, priceOpen, priceClose) {
+    ctx.clearRect(0, 0, width, height)
+    drawLines()
+    let maxDiff = high - low
+    let posXline = 12
+    let posYline
+    let heightLine
+    for (let i = 0; i < 45; ++i) {
+        posYline = 3 * ((high - priceHigh[i]) * 100 / maxDiff) + 15
+        heightLine = 3 * ((high - priceLow[i]) * 100 / maxDiff) + 15 - posYline
+        if (priceHigh[i] == priceLow[i]) {
+            drawX(posXline, posYline)
+        } else {
+            ctx.fillRect(posXline, posYline, 1, heightLine)
+        }
+        posXline += 12
+    }
+    posXline = 8
+    for (let i = 0; i < 45; ++i) {
+        let highValue = priceOpen[i]
+        let lowValue = priceClose[i]
+        ctx.fillStyle = "#dc3232"
+        if (priceOpen[i] < priceClose[i]) {
+            lowValue = priceOpen[i]
+            highValue = priceClose[i]
+            ctx.fillStyle = "#4CAF50"
+        }
+        posYline = 3 * ((high - highValue) * 100 / maxDiff) + 15
+        heightLine = 3 * ((high - lowValue) * 100 / maxDiff) + 15 - posYline
+        if (heightLine == 0) {
+            ctx.fillStyle = "black"
+            ++heightLine
+        }
+        ctx.fillRect(posXline, posYline, 10, heightLine)
+        posXline += 12
+    }
 }
 
 function drawLines() {
@@ -155,6 +137,20 @@ function drawLines() {
     ctx.lineTo(550, posY[value])
     ctx.stroke()
     }
+}
+
+function drawX(posX, posY) {
+    ctx.fillRect(posX, posY - 2.5, 1, 5)
+    ctx.fillRect(posX - 2.5, posY, 5, 1)
+}
+
+function toggleBtns(id) {
+    if (document.getElementById(id).className == "intervalBtnActive") {
+        return
+    }
+    let activeBtn = document.querySelector(".intervalBtnActive")
+    activeBtn.className = "intervalBtn"
+    document.getElementById(id).className = "intervalBtnActive"
 }
 
 function setPriceInfo (high, low) {
@@ -181,14 +177,11 @@ async function symbolSearch(chars) {
     }
     const response = await fetch(`https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords=${chars}&apikey=PKS369HG6LAKHCVO`)
     const data = await response.json()
-
-    console.log(data);
-
     let listElements = ""
     try {
         for (let i = 0; i < data.bestMatches.length; ++i) {
             listElements += '\
-            <li id="listItem" onclick= copySymbol("'+ data.bestMatches[i]["1. symbol"] +'")>\
+            <li onclick= copySymbol("'+ data.bestMatches[i]["1. symbol"] +'")>\
                 Symbol: <strong>' + data.bestMatches[i]["1. symbol"] + '</strong><br>\
                 Name: ' + data.bestMatches[i]["2. name"] + '<br>\
                 Region: ' + data.bestMatches[i]["4. region"] +'\
